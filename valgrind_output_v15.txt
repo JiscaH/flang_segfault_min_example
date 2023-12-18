@@ -64,177 +64,148 @@ minWE::test_fun(5000, reshape=FALSE)
 R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < test_example.R
 ========================
 
-==3784== Memcheck, a memory error detector
-==3784== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==3784== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==3784== Command: /usr/local/lib64/R/bin/exec/R --vanilla
-==3784== 
-
-R Under development (unstable) (2023-12-15 r85690) -- "Unsuffered Consequences"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu
-
-R is free software and comes with ABSOLUTELY NO WARRANTY.
-You are welcome to redistribute it under certain conditions.
-Type 'license()' or 'licence()' for distribution details.
-
-  Natural language support but running in an English locale
-
-R is a collaborative project with many contributors.
-Type 'contributors()' for more information and
-'citation()' on how to cite R or R packages in publications.
-
-Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.
-
-> minWE::test_fun(5000, reshape=FALSE)
-==3784== Warning: set address range perms: large range [0xc5e5040, 0x3c0d5870) (undefined)
-==3784== Warning: set address range perms: large range [0xc5e5070, 0x3c0d5870) (undefined)
-==3784== Warning: set address range perms: large range [0x59c99040, 0x89789870) (undefined)
-==3784== Warning: set address range perms: large range [0x59c99070, 0x89789870) (undefined)
-==3784== Warning: client switching stacks?  SP change: 0x1ffeffce70 --> 0x1fcf50c670
-==3784==          to suppress, use: --max-stackframe=800000000 or greater
-==3784== Invalid write of size 8
-==3784==    at 0xC558D70: dostuff_ (dostuff.f90:8)
-==3784==  Address 0x1fcf50c670 is on thread 1's stack
-==3784== 
+> minWE::test_fun(5e2)
+done.  42 
+> minWE::test_fun(5e3)
+==27045== Warning: client switching stacks?  SP change: 0x1ffeffce90 --> 0x1ff909ed90
+==27045==          to suppress, use: --max-stackframe=100000000 or greater
+==27045== Invalid write of size 8
+==27045==    at 0xC558D20: dostuff_ (dostuff.f90:8)
+==27045==  Address 0x1ff909ed90 is on thread 1's stack
+==27045== 
 
  *** caught segfault ***
-address 0x1fcf50c670, cause 'memory not mapped'
+address 0x1ff909ed90, cause 'memory not mapped'
 
 Traceback:
- 1: minWE::test_fun(5000, reshape = FALSE)
+ 1: minWE::test_fun(5000)
 An irrecoverable exception occurred. R is aborting now ...
-==3784== 
-==3784== Process terminating with default action of signal 11 (SIGSEGV)
-==3784==    at 0x51959FC: __pthread_kill_implementation (pthread_kill.c:44)
-==3784==    by 0x51959FC: __pthread_kill_internal (pthread_kill.c:78)
-==3784==    by 0x51959FC: pthread_kill@@GLIBC_2.34 (pthread_kill.c:89)
-==3784==    by 0x5141475: raise (raise.c:26)
-==3784==    by 0x514151F: ??? (in /usr/lib/x86_64-linux-gnu/libc.so.6)
-==3784==    by 0xC558D6F: dostuff_ (dostuff.f90:0)
-==3784== 
-==3784== HEAP SUMMARY:
-==3784==     in use at exit: 1,639,307,814 bytes in 7,803 blocks
-==3784==   total heap usage: 21,602 allocs, 13,799 frees, 1,667,840,368 bytes allocated
-==3784== 
-==3784== 15 bytes in 1 blocks are possibly lost in loss record 29 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x514403F: __add_to_environ (setenv.c:217)
-==3784==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
-==3784==    by 0x17D862: Putenv (Renviron.c:241)
-==3784==    by 0x17D862: process_Renviron (???:339)
-==3784==    by 0x17D2BF: process_system_Renviron (Renviron.c:380)
-==3784==    by 0x3AE164: Rf_initialize_R (system.c:336)
-==3784==    by 0x178E3F: main (Rmain.c:28)
-==3784== 
-==3784== 24 bytes in 1 blocks are possibly lost in loss record 42 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x521EDAE: tsearch (tsearch.c:337)
-==3784==    by 0x514406A: __add_to_environ (setenv.c:233)
-==3784==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
-==3784==    by 0x34A892: do_setenv (sysutils.c:480)
-==3784==    by 0x24C99F: bcEval (eval.c:7735)
-==3784==    by 0x243768: Rf_eval (eval.c:1146)
-==3784==    by 0x269328: R_execClosure (eval.c:0)
-==3784==    by 0x2684A9: applyClosure_core (eval.c:2253)
-==3784==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
-==3784==    by 0x2439D4: Rf_eval (eval.c:1273)
-==3784==    by 0x2AA4D0: R_ReplFile (main.c:97)
-==3784== 
-==3784== 43 bytes in 2 blocks are possibly lost in loss record 57 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x514403F: __add_to_environ (setenv.c:217)
-==3784==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
-==3784==    by 0x34A892: do_setenv (sysutils.c:480)
-==3784==    by 0x24C99F: bcEval (eval.c:7735)
-==3784==    by 0x243768: Rf_eval (eval.c:1146)
-==3784==    by 0x269328: R_execClosure (eval.c:0)
-==3784==    by 0x2684A9: applyClosure_core (eval.c:2253)
-==3784==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
-==3784==    by 0x24C324: bcEval (eval.c:7706)
-==3784==    by 0x243768: Rf_eval (eval.c:1146)
-==3784==    by 0x269328: R_execClosure (eval.c:0)
-==3784== 
-==3784== 48 bytes in 2 blocks are possibly lost in loss record 64 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x521EDAE: tsearch (tsearch.c:337)
-==3784==    by 0x514406A: __add_to_environ (setenv.c:233)
-==3784==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
-==3784==    by 0x34A892: do_setenv (sysutils.c:480)
-==3784==    by 0x24C99F: bcEval (eval.c:7735)
-==3784==    by 0x243768: Rf_eval (eval.c:1146)
-==3784==    by 0x269328: R_execClosure (eval.c:0)
-==3784==    by 0x2684A9: applyClosure_core (eval.c:2253)
-==3784==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
-==3784==    by 0x24C324: bcEval (eval.c:7706)
-==3784==    by 0x243768: Rf_eval (eval.c:1146)
-==3784== 
-==3784== 120 bytes in 5 blocks are possibly lost in loss record 110 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x521EDAE: tsearch (tsearch.c:337)
-==3784==    by 0x514406A: __add_to_environ (setenv.c:233)
-==3784==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
-==3784==    by 0x17D862: Putenv (Renviron.c:241)
-==3784==    by 0x17D862: process_Renviron (???:339)
-==3784==    by 0x17D2BF: process_system_Renviron (Renviron.c:380)
-==3784==    by 0x3AE164: Rf_initialize_R (system.c:336)
-==3784==    by 0x178E3F: main (Rmain.c:28)
-==3784== 
-==3784== 2,304 bytes in 1 blocks are possibly lost in loss record 278 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x4005D97: malloc (rtld-malloc.h:56)
-==3784==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
-==3784==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
-==3784==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
-==3784==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x400DF99: dl_open_worker (dl-open.c:782)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x400E34D: _dl_open (dl-open.c:883)
-==3784==    by 0x518F63B: dlopen_doit (dlopen.c:56)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x5273972: _dl_catch_error (dl-error-skeleton.c:227)
-==3784==    by 0x518F12D: _dlerror_run (dlerror.c:138)
-==3784==    by 0x518F6C7: dlopen_implementation (dlopen.c:71)
-==3784==    by 0x518F6C7: dlopen@@GLIBC_2.34 (dlopen.c:81)
-==3784== 
-==3784== 2,304 bytes in 1 blocks are possibly lost in loss record 279 of 1,174
-==3784==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
-==3784==    by 0x4005D97: malloc (rtld-malloc.h:56)
-==3784==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
-==3784==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
-==3784==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
-==3784==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x400DF99: dl_open_worker (dl-open.c:782)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x400E34D: _dl_open (dl-open.c:883)
-==3784==    by 0x5273C10: do_dlopen (dl-libc.c:95)
-==3784==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
-==3784==    by 0x5273972: _dl_catch_error (dl-error-skeleton.c:227)
-==3784==    by 0x5273D46: dlerror_run (dl-libc.c:45)
-==3784==    by 0x5273D46: __libc_dlopen_mode (dl-libc.c:162)
-==3784==    by 0x5134EB2: __gconv_find_shlib (gconv_dl.c:114)
-==3784== 
-==3784== LEAK SUMMARY:
-==3784==    definitely lost: 0 bytes in 0 blocks
-==3784==    indirectly lost: 0 bytes in 0 blocks
-==3784==      possibly lost: 4,858 bytes in 13 blocks
-==3784==    still reachable: 1,639,302,956 bytes in 7,790 blocks
-==3784==                       of which reachable via heuristic:
-==3784==                         newarray           : 4,264 bytes in 1 blocks
-==3784==         suppressed: 0 bytes in 0 blocks
-==3784== Reachable blocks (those to which a pointer was found) are not shown.
-==3784== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==3784== 
-==3784== For lists of detected and suppressed errors, rerun with: -s
-==3784== ERROR SUMMARY: 9 errors from 8 contexts (suppressed: 0 from 0)
+==27045== 
+==27045== Process terminating with default action of signal 11 (SIGSEGV)
+==27045==    at 0x51959FC: __pthread_kill_implementation (pthread_kill.c:44)
+==27045==    by 0x51959FC: __pthread_kill_internal (pthread_kill.c:78)
+==27045==    by 0x51959FC: pthread_kill@@GLIBC_2.34 (pthread_kill.c:89)
+==27045==    by 0x5141475: raise (raise.c:26)
+==27045==    by 0x514151F: ??? (in /usr/lib/x86_64-linux-gnu/libc.so.6)
+==27045==    by 0xC558D1F: dostuff_ (dostuff.f90:0)
+==27045== 
+==27045== HEAP SUMMARY:
+==27045==     in use at exit: 239,333,071 bytes in 7,809 blocks
+==27045==   total heap usage: 21,622 allocs, 13,813 frees, 270,876,013 bytes allocated
+==27045== 
+==27045== 15 bytes in 1 blocks are possibly lost in loss record 29 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x514403F: __add_to_environ (setenv.c:217)
+==27045==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
+==27045==    by 0x17D862: Putenv (Renviron.c:241)
+==27045==    by 0x17D862: process_Renviron (???:339)
+==27045==    by 0x17D2BF: process_system_Renviron (Renviron.c:380)
+==27045==    by 0x3AE164: Rf_initialize_R (system.c:336)
+==27045==    by 0x178E3F: main (Rmain.c:28)
+==27045== 
+==27045== 24 bytes in 1 blocks are possibly lost in loss record 42 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x521EDAE: tsearch (tsearch.c:337)
+==27045==    by 0x514406A: __add_to_environ (setenv.c:233)
+==27045==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
+==27045==    by 0x34A892: do_setenv (sysutils.c:480)
+==27045==    by 0x24C99F: bcEval (eval.c:7735)
+==27045==    by 0x243768: Rf_eval (eval.c:1146)
+==27045==    by 0x269328: R_execClosure (eval.c:0)
+==27045==    by 0x2684A9: applyClosure_core (eval.c:2253)
+==27045==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
+==27045==    by 0x2439D4: Rf_eval (eval.c:1273)
+==27045==    by 0x2AA4D0: R_ReplFile (main.c:97)
+==27045== 
+==27045== 43 bytes in 2 blocks are possibly lost in loss record 56 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x514403F: __add_to_environ (setenv.c:217)
+==27045==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
+==27045==    by 0x34A892: do_setenv (sysutils.c:480)
+==27045==    by 0x24C99F: bcEval (eval.c:7735)
+==27045==    by 0x243768: Rf_eval (eval.c:1146)
+==27045==    by 0x269328: R_execClosure (eval.c:0)
+==27045==    by 0x2684A9: applyClosure_core (eval.c:2253)
+==27045==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
+==27045==    by 0x24C324: bcEval (eval.c:7706)
+==27045==    by 0x243768: Rf_eval (eval.c:1146)
+==27045==    by 0x269328: R_execClosure (eval.c:0)
+==27045== 
+==27045== 48 bytes in 2 blocks are possibly lost in loss record 64 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x521EDAE: tsearch (tsearch.c:337)
+==27045==    by 0x514406A: __add_to_environ (setenv.c:233)
+==27045==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
+==27045==    by 0x34A892: do_setenv (sysutils.c:480)
+==27045==    by 0x24C99F: bcEval (eval.c:7735)
+==27045==    by 0x243768: Rf_eval (eval.c:1146)
+==27045==    by 0x269328: R_execClosure (eval.c:0)
+==27045==    by 0x2684A9: applyClosure_core (eval.c:2253)
+==27045==    by 0x267DFC: Rf_applyClosure (eval.c:2273)
+==27045==    by 0x24C324: bcEval (eval.c:7706)
+==27045==    by 0x243768: Rf_eval (eval.c:1146)
+==27045== 
+==27045== 120 bytes in 5 blocks are possibly lost in loss record 110 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x521EDAE: tsearch (tsearch.c:337)
+==27045==    by 0x514406A: __add_to_environ (setenv.c:233)
+==27045==    by 0x4856DAF: setenv (vg_replace_strmem.c:2416)
+==27045==    by 0x17D862: Putenv (Renviron.c:241)
+==27045==    by 0x17D862: process_Renviron (???:339)
+==27045==    by 0x17D2BF: process_system_Renviron (Renviron.c:380)
+==27045==    by 0x3AE164: Rf_initialize_R (system.c:336)
+==27045==    by 0x178E3F: main (Rmain.c:28)
+==27045== 
+==27045== 2,304 bytes in 1 blocks are possibly lost in loss record 278 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x4005D97: malloc (rtld-malloc.h:56)
+==27045==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
+==27045==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
+==27045==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
+==27045==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x400E34D: _dl_open (dl-open.c:883)
+==27045==    by 0x518F63B: dlopen_doit (dlopen.c:56)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x5273972: _dl_catch_error (dl-error-skeleton.c:227)
+==27045==    by 0x518F12D: _dlerror_run (dlerror.c:138)
+==27045==    by 0x518F6C7: dlopen_implementation (dlopen.c:71)
+==27045==    by 0x518F6C7: dlopen@@GLIBC_2.34 (dlopen.c:81)
+==27045== 
+==27045== 2,304 bytes in 1 blocks are possibly lost in loss record 279 of 1,186
+==27045==    at 0x48487EF: malloc (vg_replace_malloc.c:442)
+==27045==    by 0x4005D97: malloc (rtld-malloc.h:56)
+==27045==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
+==27045==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
+==27045==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
+==27045==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x400E34D: _dl_open (dl-open.c:883)
+==27045==    by 0x5273C10: do_dlopen (dl-libc.c:95)
+==27045==    by 0x52738A7: _dl_catch_exception (dl-error-skeleton.c:208)
+==27045==    by 0x5273972: _dl_catch_error (dl-error-skeleton.c:227)
+==27045==    by 0x5273D46: dlerror_run (dl-libc.c:45)
+==27045==    by 0x5273D46: __libc_dlopen_mode (dl-libc.c:162)
+==27045==    by 0x5134EB2: __gconv_find_shlib (gconv_dl.c:114)
+==27045== 
+==27045== LEAK SUMMARY:
+==27045==    definitely lost: 0 bytes in 0 blocks
+==27045==    indirectly lost: 0 bytes in 0 blocks
+==27045==      possibly lost: 4,858 bytes in 13 blocks
+==27045==    still reachable: 239,328,213 bytes in 7,796 blocks
+==27045==                       of which reachable via heuristic:
+==27045==                         newarray           : 4,264 bytes in 1 blocks
+==27045==         suppressed: 0 bytes in 0 blocks
+==27045== Reachable blocks (those to which a pointer was found) are not shown.
+==27045== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==27045== 
+==27045== For lists of detected and suppressed errors, rerun with: -s
+==27045== ERROR SUMMARY: 9 errors from 8 contexts (suppressed: 0 from 0)
 Segmentation fault (core dumped)
-
-
-
 
 
 
