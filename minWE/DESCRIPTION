@@ -1,0 +1,13 @@
+Package: minWE
+Type: Package
+Title: Minimum Working Example: sequoia segfault
+Version: 0.1.5
+Author: Jisca Huisman
+Maintainer: Jisca Huisman <jisca.huisman@gmail.com>
+Description: This package gives a segfault error with flang-new but not other 
+  compilers.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+NeedsCompilation: yes
+RoxygenNote: 7.2.3
